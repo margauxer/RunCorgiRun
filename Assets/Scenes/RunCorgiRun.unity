@@ -441,6 +441,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1150742630}
   - component: {fileID: 1150742631}
+  - component: {fileID: 1150742632}
   m_Layer: 0
   m_Name: Placers
   m_TagString: Untagged
@@ -476,6 +477,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PoopPlacer
   PoopPrefab: {fileID: 5484754901216962278, guid: 2c9ede61c1876489aafd316b1d3fa5a6, type: 3}
+--- !u!114 &1150742632
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1150742629}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35a40154b483c47e78f1d91b49bd171f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BeerPlacer
+  BeerPrefab: {fileID: 7454597014331949437, guid: 014211554b0394d228357afe8515c615, type: 3}
 --- !u!1 &1235959758
 GameObject:
   m_ObjectHideFlags: 0
