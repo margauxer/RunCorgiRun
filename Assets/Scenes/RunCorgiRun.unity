@@ -676,6 +676,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f2cad83c112f4188a0ce9335290b350, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Corgi
+  DrunkSprite: {fileID: 21300000, guid: b36ce77acedeb4661b9414181326b0dc, type: 3}
+  SoberSprite: {fileID: 21300000, guid: 8ee2fe404fb5341e18c7750767b66638, type: 3}
 --- !u!50 &1920827230
 Rigidbody2D:
   serializedVersion: 5
