@@ -9,9 +9,14 @@ public class UI : MonoBehaviour
     public CanvasGroup GameOverScreenCanvasGroup;
     public GameTimer GameTimer;
     
-    public void SetScoreText(int score)
+    public void SetScoreText()
     {
-        scoreText.text = "Score: " + score;
+        scoreText.text = "Score: " + ScoreKeeper.GetScore();
+    }
+    
+    public void ResetScoreText()
+    {
+        scoreText.text = "Score: 0";
     }
 
     public void HideStartScreen()

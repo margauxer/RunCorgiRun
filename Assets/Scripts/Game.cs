@@ -3,7 +3,14 @@ using UnityEngine;
 public class Game : MonoBehaviour
 {
     public UI Ui;
+    public Corgi Corgi;
     public GameTimer GameTimer;
+    public BeerPlacer BeerPlacer;
+    public BonePlacer BonePlacer;
+    public PillPlacer PillPlacer;
+    public MoonshinePlacer MoonshinePlacer;
+    
+    private bool isGameRunning = false;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -15,19 +22,52 @@ public class Game : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Ui.ShowTime();
+        if (isGameRunning)
+        {
+            Ui.ShowTime();
+        }
     }
 
+    public bool IsPlaying()
+    {
+        return isGameRunning;
+    }
     public void OnStartButtonClicked()
     {
         Ui.HideStartScreen();
+        InitializeGame();
+    }
+
+    public void InitializeGame()
+    {
+        isGameRunning = true;
         StartGame();
+        StartPlacers();
+        ScoreKeeper.ResetScore();
+        Ui.ResetScoreText();
+        Corgi.Reset();
+    }
+
+    private void StartPlacers()
+    {
+        BeerPlacer.StartPlacing();
+        BonePlacer.StartPlacing();
+        PillPlacer.StartPlacing();
+        MoonshinePlacer.StartPlacing();
+    }
+    
+    private void StopPlacers()
+    {
+        BeerPlacer.StopPlacing();
+        BonePlacer.StopPlacing();
+        PillPlacer.StopPlacing();
+        MoonshinePlacer.StopPlacing();
     }
 
     public void OnPlayAgainButtonClicked()
     {
         Ui.HideGameOverScreen();
-        StartGame();
+        InitializeGame();
     }
 
     public void StartGame()
@@ -37,6 +77,8 @@ public class Game : MonoBehaviour
 
     public void OnTimerFinished()
     {
+        isGameRunning = false;
         Ui.ShowGameOverScreen();
+        StopPlacers();
     }
 }

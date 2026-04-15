@@ -1,4 +1,6 @@
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class TimedObjectPlacer : MonoBehaviour
@@ -9,12 +11,46 @@ public class TimedObjectPlacer : MonoBehaviour
     public float maximumSecondsToWait;
     
     private bool isOkToCreate = true; // gatekeeping boolean
+    private bool isActive = false;
+    private Coroutine countdownCoroutine;
     
     void Update()
     {
+        if (!isActive)
+            return; 
+        
         if (isOkToCreate)
         {
-            StartCoroutine(CountdownUntilCreation());
+            countdownCoroutine = StartCoroutine(CountdownUntilCreation());
+        }
+    }
+
+    public void StartPlacing()
+    {
+        isActive = true;
+        isOkToCreate = true;
+    }
+    
+    public void StopPlacing()
+    {
+        isActive = false;
+        isOkToCreate = false;
+        
+        if (countdownCoroutine != null)
+            StopCoroutine(countdownCoroutine);
+
+        CleanupPlacedObjects();
+    }
+
+    private void CleanupPlacedObjects()
+    {
+        // find all the objects we placed that are still on the board
+        List<GameObject> placedObjects = GameObject.FindGameObjectsWithTag(Prefab.tag).ToList();
+        
+        // destroy them
+        for (int i = 0; i < placedObjects.Count; i++)
+        {
+            Destroy(placedObjects[i]);
         }
     }
 

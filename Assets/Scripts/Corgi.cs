@@ -8,13 +8,14 @@ public class Corgi : MonoBehaviour
     public Sprite DrunkSprite;
     public Sprite SoberSprite;
     public UI Ui;
+    public Game Game;
     
     private SpriteRenderer corgiSpriteRenderer;
     private bool isDrunk = false;
     private bool isPlastered = false;
     private Coroutine soberupCoroutine;
     private int randomMoveCounter = 0;
-    private int lastRandonDirection = 0;
+    private int lastRandomDirection = 0;
 
     public void Awake()
     {
@@ -29,14 +30,23 @@ public class Corgi : MonoBehaviour
         }
     }
 
-    public void MoveRandomly()
+    public void Reset()
     {
-        int direction = lastRandonDirection;
+        isPlastered = false;
+        isDrunk = false;
+        ChangeToSoberSprite();
+        corgiSpriteRenderer.flipX = false;
+        transform.position = new Vector3(0, 0, 0);
+    }
+
+    private void MoveRandomly()
+    {
+        int direction = lastRandomDirection;
         
         if (randomMoveCounter == 0)
         {
             direction = Random.Range(0, 4);
-            lastRandonDirection = direction;
+            lastRandomDirection = direction;
             randomMoveCounter = Random.Range(20, 60);
         }
         
@@ -61,10 +71,13 @@ public class Corgi : MonoBehaviour
 
     public void MoveManually(Vector2 direction)
     {
-        if (!isPlastered)
-        {
-            Move(direction);
-        }
+        if (!Game.IsPlaying())
+            return;
+        
+        if (isPlastered)
+            return;
+        
+        Move(direction);
     }
     
     public void Move(Vector2 direction)
@@ -73,7 +86,7 @@ public class Corgi : MonoBehaviour
         
         FaceCorrectDirection(direction);
         
-        Vector2 movementAmount = GameParameters.CorgiMoveSpeed * direction * Time.deltaTime;
+        Vector2 movementAmount = direction * GameParameters.CorgiMoveSpeed * Time.deltaTime;
         
         corgiSpriteRenderer.transform.Translate(movementAmount.x, movementAmount.y, 0);
 
@@ -101,9 +114,7 @@ public class Corgi : MonoBehaviour
         }
         else if (other.tag == "Bone")
         {
-            ScoreKeeper.AddPoint();
-            Ui.SetScoreText(ScoreKeeper.GetScore());
-            print("Score: " + ScoreKeeper.GetScore());
+            AddPointToScore();
             Destroy(other.gameObject);
         }
         else if (other.tag == "Pill")
@@ -111,6 +122,12 @@ public class Corgi : MonoBehaviour
             SoberUp();
             Destroy(other.gameObject);
         }
+    }
+
+    private void AddPointToScore()
+    {
+        ScoreKeeper.AddPoint();
+        Ui.SetScoreText();
     }
 
     public void OnCollisionEnter2D (Collision2D other)
