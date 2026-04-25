@@ -9,6 +9,7 @@ public class Game : MonoBehaviour
     public BonePlacer BonePlacer;
     public PillPlacer PillPlacer;
     public MoonshinePlacer MoonshinePlacer;
+    public Music Music;
     
     private bool isGameRunning = false;
     
@@ -17,6 +18,7 @@ public class Game : MonoBehaviour
     {
         Ui.HideGameOverScreen();
         Ui.ShowStartScreen();
+        Music.PlayMenuMusic();
     }
 
     // Update is called once per frame
@@ -46,6 +48,7 @@ public class Game : MonoBehaviour
         ScoreKeeper.ResetScore();
         Ui.ResetScoreText();
         Corgi.Reset();
+        Music.PlayGameMusic();
     }
 
     private void StartPlacers()
@@ -80,5 +83,6 @@ public class Game : MonoBehaviour
         isGameRunning = false;
         Ui.ShowGameOverScreen();
         StopPlacers();
+        Music.PlayMenuMusic();
     }
 }
